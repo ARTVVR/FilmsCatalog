@@ -1,0 +1,107 @@
+<section class="films">
+  <header class="films__header">
+    <h1 class="films__title">Каталог фильмов</h1>
+    <label class="films__search" aria-label="Поиск фильмов">
+      <input
+        type="search"
+        class="films__search-input"
+        placeholder="Поиск по названию..."
+        [formControl]="query"
+      />
+    </label>
+  </header>
+
+  <div [attr.aria-busy]="isLoading()">
+    <ng-container *ngIf="pagedFilms$ | async as films; else loading">
+      <div *ngIf="films.length === 0" class="films__empty" role="status">Ничего не найдено</div>
+      <div class="films__grid" role="list">
+        <ng-container *ngFor="let film of films; index as i; trackBy: trackByFilmId">
+          <button
+            type="button"
+            class="film-card"
+            role="listitem"
+            (click)="open(film.id)"
+          >
+            <img
+              *ngIf="i < 10"
+              class="film-card__poster"
+              [src]="film.poster"
+              [alt]="film.title"
+              width="342"
+              height="513"
+              loading="eager"
+              fetchpriority="high"
+              decoding="async"
+              [attr.srcset]="buildPosterSrcSet(film.poster)"
+              [attr.sizes]="posterSizes"
+              referrerpolicy="no-referrer"
+              (error)="onImgError($event)"
+            />
+            <img
+              *ngIf="i >= 10"
+              class="film-card__poster"
+              [src]="film.poster"
+              [alt]="film.title"
+              width="342"
+              height="513"
+              loading="lazy"
+              decoding="async"
+              [attr.srcset]="buildPosterSrcSet(film.poster)"
+              [attr.sizes]="posterSizes"
+              referrerpolicy="no-referrer"
+              (error)="onImgError($event)"
+            />
+
+            <div class="film-card__meta">
+              <h2 class="film-card__title">{{ film.title }}</h2>
+              <p class="film-card__subtitle">{{ film.year }} • {{ film.genre.join(', ') }}</p>
+              <span class="film-card__rating" aria-label="Рейтинг">★ {{ film.rating }}</span>
+            </div>
+          </button>
+        </ng-container>
+      </div>
+
+      <div class="films__pagination" *ngIf="totalPages$ | async as total">
+        <button class="films__page-btn" (click)="prevPage()" [disabled]="(page$ | async)! <= 1">Назад</button>
+        <span class="films__page-info">Страница {{ (page$ | async) }} из {{ total }}</span>
+        <button class="films__page-btn" (click)="nextPage(total)" [disabled]="(page$ | async)! >= total">Вперёд</button>
+      </div>
+    </ng-container>
+
+    <ng-template #loading>
+      <div class="films__skeletons">
+        <div *ngFor="let i of [0, 1, 2, 3, 4, 5, 6, 7]" class="film-card film-card--skeleton">
+          <div class="film-card__poster"></div>
+          <div class="film-card__meta">
+            <div class="skeleton skeleton--title"></div>
+            <div class="skeleton skeleton--line"></div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+
+  <div
+    *ngIf="selectedFilmId()"
+    class="modal"
+    role="dialog"
+    aria-modal="true"
+    (click)="close()"
+    (keydown.escape)="close()"
+    tabindex="0"
+  >
+    <div class="modal__dialog" role="document" tabindex="-1" (click)="$event.stopPropagation()">
+      <button
+        type="button"
+        class="modal__close"
+        aria-label="Закрыть"
+        (click)="close()"
+        (keydown.enter)="close()"
+        (keydown.space)="close()"
+      >
+        ×
+      </button>
+      <app-film-detail [filmId]="selectedFilmId()"></app-film-detail>
+    </div>
+  </div>
+</section>

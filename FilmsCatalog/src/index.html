@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <title>Каталог фильмов - FilmsCatalog</title>
+    <meta name="description" content="Каталог фильмов с поиском и детальной информацией" />
+    <base href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/x-icon" href="../public/favicon.ico" />
+    
+    <!-- Preconnect to external domains -->
+    <link rel="preconnect" href="https://wsrv.nl" crossorigin />
+    <link rel="dns-prefetch" href="https://wsrv.nl" />
+    <link rel="dns-prefetch" href="https://placehold.co" />
+    <link rel="preconnect" href="http://localhost:3000" />
+
+    <!-- Preload API data to speed up first render -->
+    <link rel="preload" as="fetch" href="http://localhost:3000/films?_sort=title&_order=asc" crossorigin>
+    
+    <!-- Preload critical resources -->
+    
+    <!-- Theme color for mobile -->
+    <meta name="theme-color" content="#6ea8fe" />
+    
+    <!-- Prevent FOUC -->
+    <style>
+      app-root {
+        display: block;
+        min-height: 100vh;
+      }
+      /* Critical CSS inline for faster render */
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, sans-serif;
+        background: #fafafa;
+        color: #111;
+      }
+    </style>
+  </head>
+  <body>
+    <app-root></app-root>
+  </body>
+</html>

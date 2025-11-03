@@ -1,0 +1,40 @@
+/* You can add global styles to this file, and also import other style files */
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background: #fafafa;
+  color: #111;
+  font-display: swap;
+}
+
+/* Global containers */
+:root {
+  --container-width: 1280px;
+  --page-padding: 16px;
+  --brand: #6ea8fe;
+  --brand-2: #9f7aea;
+  --surface: #ffffff;
+  --surface-2: #f6f7fb;
+  --text: #111;
+  --muted: #666;
+}
+
+app-root,
+.page {
+  display: block;
+  max-width: var(--container-width);
+  padding: clamp(12px, 2vw, var(--page-padding));
+  margin: 0 auto;
+}
+
+/* Basic reset for images */
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* Accessible focus */
+:focus-visible {
+  outline: 3px solid var(--brand);
+  outline-offset: 2px;
+}
