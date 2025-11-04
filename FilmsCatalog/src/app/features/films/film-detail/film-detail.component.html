@@ -1,0 +1,32 @@
+<ng-container *ngIf="film$ | async as film; else loading">
+  <article class="detail">
+    <div class="detail__backdrop" [style.background-image]="'url(' + film.backdrop + ')'"></div>
+    <div class="detail__content">
+      <img
+        class="detail__poster"
+        [src]="film.poster"
+        [alt]="film.title"
+        width="342"
+        height="auto"
+        loading="lazy"
+        decoding="async"
+        [attr.srcset]="buildPosterSrcSet(film.poster)"
+        [attr.sizes]="detailPosterSizes"
+        referrerpolicy="no-referrer"
+        (error)="onImgError($event)"
+      />
+      <div class="detail__meta">
+        <h1 class="detail__title">{{ film.title }}</h1>
+        <p class="detail__sub">
+          {{ film.year }} • {{ film.genre.join(', ') }} • {{ film.runtime }} мин
+        </p>о 
+        <p class="detail__rating" aria-label="Рейтинг">★ {{ film.rating }}</p>
+        <p class="detail__overview">{{ film.overview }}</p>
+      </div>
+    </div>
+  </article>
+</ng-container>
+
+<ng-template #loading>
+  <div class="detail__loading">Загрузка...</div>
+</ng-template>

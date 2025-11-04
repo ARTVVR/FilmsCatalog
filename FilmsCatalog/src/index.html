@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <title>Каталог фильмов - FilmsCatalog</title>
+    <meta name="description" content="Каталог фильмов с поиском и детальной информацией" />
+    <base href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+    <link rel="preconnect" href="https://wsrv.nl" crossorigin />
+    <link rel="dns-prefetch" href="https://wsrv.nl" />
+    <link rel="dns-prefetch" href="https://placehold.co" />
+    <link rel="preconnect" href="https://6909e8871a446bb9cc208c3a.mockapi.io" crossorigin />
+
+    <link rel="preload" as="fetch" href="https://6909e8871a446bb9cc208c3a.mockapi.io/api/films" crossorigin />
+    
+    <meta name="theme-color" content="#6ea8fe" />
+    
+    <style>
+      app-root {
+        display: block;
+        min-height: 100vh;
+      }
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, sans-serif;
+        background: #fafafa;
+        color: #111;
+      }
+    </style>
+  </head>
+  <body>
+    <app-root></app-root>
+  </body>
+</html>
