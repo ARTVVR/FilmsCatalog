@@ -6,29 +6,22 @@
     <meta name="description" content="Каталог фильмов с поиском и детальной информацией" />
     <base href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/x-icon" href="../public/favicon.ico" />
-    
-    <!-- Preconnect to external domains -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+
     <link rel="preconnect" href="https://wsrv.nl" crossorigin />
     <link rel="dns-prefetch" href="https://wsrv.nl" />
     <link rel="dns-prefetch" href="https://placehold.co" />
-    <link rel="preconnect" href="http://localhost:3000" />
+    <link rel="preconnect" href="https://6909e8871a446bb9cc208c3a.mockapi.io" crossorigin />
 
-    <!-- Preload API data to speed up first render -->
-    <link rel="preload" as="fetch" href="http://localhost:3000/films?_sort=title&_order=asc" crossorigin>
+    <link rel="preload" as="fetch" href="https://6909e8871a446bb9cc208c3a.mockapi.io/api/films" crossorigin />
     
-    <!-- Preload critical resources -->
-    
-    <!-- Theme color for mobile -->
     <meta name="theme-color" content="#6ea8fe" />
     
-    <!-- Prevent FOUC -->
     <style>
       app-root {
         display: block;
         min-height: 100vh;
       }
-      /* Critical CSS inline for faster render */
       body {
         margin: 0;
         font-family: system-ui, -apple-system, sans-serif;

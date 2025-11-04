@@ -40,17 +40,14 @@ export class FilmsListComponent {
     if (!img || img.__fallbackApplied) return;
     img.__fallbackApplied = true;
     const current = img.currentSrc || img.src || '';
-    // Fallback 1: switch WEBP -> JPG on proxy
     if (current.includes('wsrv.nl') && current.includes('output=webp')) {
       img.src = current.replace('output=webp', 'output=jpg');
       return;
     }
-    // Fallback 2: drop quality param if present
     if (current.includes('wsrv.nl') && current.includes('&q=')) {
       img.src = current.replace(/&q=\d+/g, '');
       return;
     }
-    // Fallback 3: placeholder
     img.src = 'https://placehold.co/342x513?text=No+Image';
   }
 
@@ -67,16 +64,13 @@ export class FilmsListComponent {
       );
     }),
     tap((films) => {
-      // Preload first 10 posters immediately to improve LCP
       if (typeof document !== 'undefined') {
         const topPosters = films.slice(0, 10).filter(f => f?.poster);
         topPosters.forEach((film) => {
           if (film.poster) {
-            // Remove existing preload links for this poster
             const existing = document.querySelector(`link[rel="preload"][href="${film.poster}"]`);
             if (existing) existing.remove();
             
-            // Create new preload link
             const link = document.createElement('link');
             link.rel = 'preload';
             link.as = 'image';
@@ -95,7 +89,6 @@ export class FilmsListComponent {
     map(([films, page]) => {
       const start = (page - 1) * this.pageSize;
       const sliced = films.slice(start, start + this.pageSize);
-      // Preload first 10 posters when page changes
       if (sliced.length > 0 && typeof document !== 'undefined') {
         const topPosters = sliced.slice(0, 10).filter(f => f?.poster);
         topPosters.forEach((film) => {
@@ -119,7 +112,6 @@ export class FilmsListComponent {
 
   buildPosterSrcSet(url: string): string {
     if (!url) return '';
-    // Works with wsrv.nl query params: change width/height keeping aspect 2:3
     const small = url.replace(/w=\d+/g, 'w=200').replace(/h=\d+/g, 'h=300');
     const medium = url.replace(/w=\d+/g, 'w=342').replace(/h=\d+/g, 'h=513');
     const large = url.replace(/w=\d+/g, 'w=400').replace(/h=\d+/g, 'h=600');
@@ -128,18 +120,15 @@ export class FilmsListComponent {
 
   posterSizes = '(max-width: 600px) 200px, (max-width: 1200px) 342px, 400px';
 
-
   nextPage(totalPages: number) {
     const current = this.page$.value;
     if (current < totalPages) {
       this.page$.next(current + 1);
-      // Prefetch next page data
       this.prefetchNextPage(current + 1);
     }
   }
 
   private prefetchNextPage(page: number) {
-    // Prefetch images for next page using requestIdleCallback for better performance
     if ('requestIdleCallback' in window) {
       requestIdleCallback(() => {
         this.films$.subscribe((films) => {
